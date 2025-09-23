@@ -73,21 +73,24 @@ export default function ListEpisodes() {
     }, []);
 
     return (
-        <div>
+        <div className="flex flex-col items-center justify-center p-4">
             {isLoading ? (
                 <p>Loading...</p>
             ) : (
                 <ul>
                     {episodes.map((episode) => (
-                        <li key={episode.id}>
-                            <h3>{episode.name}</h3>
-                            <p>Air Date: {episode.air_date}</p>
-                            <p>Episode: {episode.episode}</p>
-                            <p>Characters: </p>
-                            <ul>
+                        <li key={episode.id} className="mb-6 border-2 border-solid border-black  p-4">
+                            <div className='mb-4 flex justify-between'>
+                                <h3 className='text-lg font-bold'>{episode.name} <label className='text-sm text-gray-500'>{episode.episode}</label> </h3>
+                                <p className='text-sm font-semibold'>Air Date: {episode.air_date}</p>
+                            </div>
+                            <hr className="border-t border-black my-4 -mx-4 w-[calc(100%+2rem)]" />
+                            <p className='text-sm font-semibold '>Characters: </p>
+                            <ul className="flex flex-wrap gap-7">
                                 {episode.charactersData?.map((character) => (
-                                    <li key={`char_${character.id}`}>
-                                        <img src={character.image} alt="Character Image" width={50} height={50} />
+                                    <li key={`char_${character.id}`} className="flex flex-col items-center">
+                                        <img className='rounded-full' src={character.image} alt="Character Image" width={50} height={50} />
+                                        <p className='text-sm font-semibold'>{character.name}</p>
                                     </li>
                                 ))}
                             </ul>
