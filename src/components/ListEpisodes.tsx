@@ -87,7 +87,7 @@ export default function ListEpisodes() {
                             <hr className="border-t border-black my-4 -mx-4 w-[calc(100%+2rem)]" />
                             <p className='text-sm font-semibold '>Characters: </p>
                             <ul className="flex flex-wrap gap-7">
-                                {episode.charactersData?.map((character) => (
+                                {episode.charactersData?.slice(0, 5).map((character) => (
                                     <li key={`char_${character.id}`} className="flex flex-col items-center">
                                         <img className='rounded-full' src={character.image} alt="Character Image" width={50} height={50} />
                                         <p className='text-sm font-semibold'>{character.name}</p>
