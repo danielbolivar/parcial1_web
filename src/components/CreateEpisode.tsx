@@ -4,11 +4,6 @@ import { useForm } from 'react-hook-form'
 import { FavoriteContext } from '@/app/page';
 import { toast } from 'sonner';
 
-interface CreateEpisodeForm {
-    name: string;
-    characters: string[];
-}
-
 export default function CreateEpisode() {
     const fetchCharacter = async (id: string): Promise<Character> => {
             try {
