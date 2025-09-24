@@ -27,6 +27,9 @@ export interface EpisodesResponse {
 
 export interface FavoriteContextType {
     favorites: number[];
+    setFavorites: (favorites: number[]) => void;
+    episodes: Episode[];
+    setEpisodesValue: (episodes: Episode[]) => void;
     globalEpisodes: Episode[];
     setGlobalEpisodes: (episodes: Episode[]) => void;
     addFavorite: (id: number) => void;

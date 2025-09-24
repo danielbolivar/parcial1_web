@@ -7,8 +7,7 @@ import { Star } from 'lucide-react';
 export default function ListEpisodes() {
 
     const [isLoading, setIsLoading] = useState(true);
-    const [episodes, setEpisodes] = useState<Episode[]>([]);
-    const { favorites, globalEpisodes, setGlobalEpisodes, addFavorite, removeFavorite } = useContext(FavoriteContext);
+    const { favorites, setFavorites, episodes, setEpisodesValue, globalEpisodes, setGlobalEpisodes, addFavorite, removeFavorite } = useContext(FavoriteContext);
 
     const fetchEpisodes = async () => {
         try {
@@ -20,8 +19,15 @@ export default function ListEpisodes() {
                 episode.charactersData = await Promise.all(characterPromises);
             }
 
-            setEpisodes(data.results);
             setGlobalEpisodes(data.results);
+            setEpisodesValue(data.results);
+
+            const localFavs = localStorage.getItem('favorites');
+            let favIds: number[] = localFavs ? JSON.parse(localFavs) as number[] : [];
+            setFavorites(favIds);
+            setGlobalEpisodes(data.results.filter(episode => !favIds.includes(episode.id)));
+
+
         } catch (error) {
             console.error('Error fetching episodes:', error);
         } finally {
@@ -49,13 +55,16 @@ export default function ListEpisodes() {
         fetchEpisodes();
     }, []);
 
+    useEffect(() => {
+    }, [globalEpisodes]);
+
     return (
         <div className="flex flex-col items-center justify-center p-4">
             {isLoading ? (
                 <p>Loading...</p>
             ) : (
                 <ul>
-                    {episodes.map((episode) => (
+                    {globalEpisodes.map((episode) => (
                         <li key={episode.id} className="mb-6 border-2 border-solid border-black  p-4">
                             <div className='mb-4 flex justify-between items-start '>
                                 <div>

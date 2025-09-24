@@ -4,14 +4,11 @@ import { Star } from 'lucide-react'
 import React, { useContext, useEffect, useState } from 'react'
 
 export default function ListFavorites() {
-    const { favorites, globalEpisodes, setGlobalEpisodes, addFavorite, removeFavorite } = useContext(FavoriteContext)
+    const { favorites, setFavorites, episodes, globalEpisodes, addFavorite, removeFavorite } = useContext(FavoriteContext)
     const [favoritesData, setFavoritesData] = useState<Episode[]>([]);
 
     useEffect(()=>{
-        console.log(favorites);
-        setFavoritesData(globalEpisodes.filter(episode => favorites.includes(episode.id)))
-        console.log(favoritesData)
-        console.log(globalEpisodes)
+        setFavoritesData(episodes.filter(episode => favorites.includes(episode.id)))
     }, [favorites])
 
     return (
