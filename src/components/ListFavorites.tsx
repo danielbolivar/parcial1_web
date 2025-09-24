@@ -1,61 +1,26 @@
-'use client';
-import React, { useContext, useEffect, useState } from 'react'
 import { FavoriteContext } from '@/app/page'
-import { Character, Episode, EpisodesResponse } from '@/types/episodeTypes'
-import { Star } from 'lucide-react';
+import { Episode } from '@/types/episodeTypes'
+import { Star } from 'lucide-react'
+import React, { useContext, useEffect, useState } from 'react'
 
-export default function ListEpisodes() {
+export default function ListFavorites() {
+    const { favorites, globalEpisodes, setGlobalEpisodes, addFavorite, removeFavorite } = useContext(FavoriteContext)
+    const [favoritesData, setFavoritesData] = useState<Episode[]>([]);
 
-    const [isLoading, setIsLoading] = useState(true);
-    const [episodes, setEpisodes] = useState<Episode[]>([]);
-    const { favorites, globalEpisodes, setGlobalEpisodes, addFavorite, removeFavorite } = useContext(FavoriteContext);
-
-    const fetchEpisodes = async () => {
-        try {
-            const response = await fetch('https://rickandmortyapi.com/api/episode');
-            const data: EpisodesResponse = await response.json();
-
-            for (let episode of data.results) {
-                const characterPromises = episode.characters.map((charUrl) => fetchCharacter(charUrl));
-                episode.charactersData = await Promise.all(characterPromises);
-            }
-
-            setEpisodes(data.results);
-            setGlobalEpisodes(data.results);
-        } catch (error) {
-            console.error('Error fetching episodes:', error);
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    const fetchCharacter = async (url: string): Promise<Character> => {
-        try {
-            const response = await fetch(url);
-            const data = await response.json();
-            const dataResponse : Character = {
-                id: data.id,
-                name: data.name,
-                image: data.image
-            };
-            return dataResponse;
-        } catch (error) {
-            console.error('Error fetching character:', error);
-            throw error;
-        }
-    }
-
-    useEffect(() => {
-        fetchEpisodes();
-    }, []);
+    useEffect(()=>{
+        console.log(favorites);
+        setFavoritesData(globalEpisodes.filter(episode => favorites.includes(episode.id)))
+        console.log(favoritesData)
+        console.log(globalEpisodes)
+    }, [favorites])
 
     return (
         <div className="flex flex-col items-center justify-center p-4">
-            {isLoading ? (
-                <p>Loading...</p>
+            {favoritesData.length === 0 ? (
+                <p className="text-gray-500 text-center">No tienes episodios favoritos aún.</p>
             ) : (
                 <ul>
-                    {episodes.map((episode) => (
+                    {favoritesData.map((episode) => (
                         <li key={episode.id} className="mb-6 border-2 border-solid border-black  p-4">
                             <div className='mb-4 flex justify-between items-start '>
                                 <div>
@@ -89,4 +54,3 @@ export default function ListEpisodes() {
         </div>
     )
 }
-

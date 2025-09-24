@@ -1,14 +1,21 @@
 'use client';
 import ListEpisodes from "@/components/ListEpisodes";
 import { useContext, useState, createContext } from "react";
+import { Episode, FavoriteContextType } from "@/types/episodeTypes";
+import ListFavorites from "@/components/ListFavorites";
 
-
-
-const FavoriteContext = createContext<any>(null);
+export const FavoriteContext = createContext<FavoriteContextType>({
+  favorites: [],
+  globalEpisodes: [],
+  setGlobalEpisodes: () => {},
+  addFavorite: () => {},
+  removeFavorite: () => {},
+});
 
 export default function Home() {
 
   const [favorites, setFavorites] = useState<number[]>([]);
+  const [globalEpisodes, setGlobalEpisodes] = useState<Episode[]>([]);
 
   const addFavorite = (id: number) => {
     setFavorites((prev) => [...prev, id]);
@@ -18,11 +25,18 @@ export default function Home() {
     setFavorites((prev) => prev.filter((favId) => favId !== id));
   };
 
+  const setEpisodesGlobal = (episodes: Episode[]) => {
+    setEpisodesGlobal(episodes);
+  }
+
   return (
-    <FavoriteContext value={{ favorites, addFavorite, removeFavorite }}>
-      <div className="container mx-auto p-4">
+    <FavoriteContext.Provider value={{ favorites, globalEpisodes, setGlobalEpisodes, addFavorite, removeFavorite }}>
+      <div className="flex mx-auto p-4">
         <ListEpisodes />
+        <div className="flex flex-col">
+          <ListFavorites/>
+        </div>
       </div>
-    </FavoriteContext>
+    </FavoriteContext.Provider>
   );
 }
