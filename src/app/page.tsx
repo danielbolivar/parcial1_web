@@ -4,7 +4,6 @@ import { useContext, useState, createContext, useEffect } from "react";
 import { Episode, FavoriteContextType } from "@/types/episodeTypes";
 import ListFavorites from "@/components/ListFavorites";
 import { toast } from "sonner";
-import { set } from "zod";
 import CreateEpisode from "@/components/CreateEpisode";
 
 export const FavoriteContext = createContext<FavoriteContextType>({

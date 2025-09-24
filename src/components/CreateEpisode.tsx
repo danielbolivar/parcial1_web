@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { Character, Episode } from '@/types/episodeTypes'
 import { useForm } from 'react-hook-form'
 import { FavoriteContext } from '@/app/page';
+import { toast } from 'sonner';
 
 interface CreateEpisodeForm {
     name: string;
@@ -23,10 +24,10 @@ export default function CreateEpisode() {
                 console.error('Error fetching character:', error);
                 throw error;
             }
-        }
+    }
 
   const { register, handleSubmit, reset, formState } = useForm<Episode>();
-  const { episodes, setGlobalEpisodes, setEpisodesValue } = useContext(FavoriteContext);
+  const { episodes, globalEpisodes,setGlobalEpisodes, setEpisodesValue } = useContext(FavoriteContext);
 
   const onSubmit = async (data: Episode) => {
 
@@ -45,10 +46,12 @@ export default function CreateEpisode() {
       episode: 'AWO01',
       created: new Date().toISOString(),
     };
+    const updatedGlobalEpisodes = [...globalEpisodes, newEpisode];
     const updatedEpisodes = [...episodes, newEpisode];
     setEpisodesValue(updatedEpisodes);
-    setGlobalEpisodes(updatedEpisodes);
+    setGlobalEpisodes(updatedGlobalEpisodes);
 
+    toast('Episode created successfully');
     reset();
   };
 
