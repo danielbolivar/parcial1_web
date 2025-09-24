@@ -13,6 +13,7 @@ export default function ListFavorites() {
 
     return (
         <div className="flex flex-col items-center justify-center p-4">
+            <h2 className='text-center font-bold mb-4'>Favorite Episodes</h2>
             {favoritesData.length === 0 ? (
                 <p className="text-gray-500 text-center">No tienes episodios favoritos aún.</p>
             ) : (

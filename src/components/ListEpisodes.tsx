@@ -60,6 +60,7 @@ export default function ListEpisodes() {
 
     return (
         <div className="flex flex-col items-center justify-center p-4">
+            <h2 className='text-center font-bold mb-4'>All Episodes</h2>
             {isLoading ? (
                 <p>Loading...</p>
             ) : (

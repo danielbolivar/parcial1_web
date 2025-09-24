@@ -5,6 +5,7 @@ import { Episode, FavoriteContextType } from "@/types/episodeTypes";
 import ListFavorites from "@/components/ListFavorites";
 import { toast } from "sonner";
 import { set } from "zod";
+import CreateEpisode from "@/components/CreateEpisode";
 
 export const FavoriteContext = createContext<FavoriteContextType>({
   favorites: [],
@@ -51,6 +52,7 @@ export default function Home() {
         <ListEpisodes />
         <div className="flex flex-col">
           <ListFavorites/>
+          <CreateEpisode />
         </div>
       </div>
     </FavoriteContext.Provider>
